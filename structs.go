@@ -2,38 +2,44 @@ package sdk_cloud_dfe
 
 import "fmt"
 
-type Ambiente int
-type BaseUri string
+type ambiente int
+type baseUri string
 
 const (
-	AMBIENTE_PRODUCAO    Ambiente = 1
-	AMBIENTE_HOMOLOGACAO Ambiente = 2
-	API_PRODUCAO         BaseUri  = "https://api.integranotas.com.br/v1"
-	API_HOMOLOGACAO      BaseUri  = "https://hom-api.integranotas.com.br/v1"
+	AmbienteProducao    ambiente = 1
+	AmbienteHomologacao ambiente = 2
+	api_Producao        baseUri  = "https://api.integranotas.com.br/v1"
+	api_Homologacao     baseUri  = "https://hom-api.integranotas.com.br/v1"
 )
 
 type configBase struct {
 	Token    string
-	Ambiente Ambiente
+	Ambiente ambiente
 	Timeout  int
 	Port     int
 	Debug    bool
 }
 
-func NewBase(token string, ambiente Ambiente, timeout int, port int, debug bool) configBase {
+func NewBase(token string, ambiente ambiente, timeout int, port int, debug bool) configBase {
 
-	return configBase{
+	config := configBase{
 		Token:    token,
 		Ambiente: ambiente,
 		Timeout:  timeout,
 		Port:     port,
 		Debug:    debug,
 	}
+
+	if debug {
+		printBase(config)
+	}
+
+	return config
 }
 
 type configClient struct {
 	Token    string
-	Ambiente Ambiente
+	Ambiente ambiente
 	Timeout  int
 	Port     int
 	Debug    bool
@@ -47,79 +53,100 @@ func NewClient(config configBase) configClient {
 	port := config.Port
 	debug := config.Debug
 
-	return configClient{
+	client := configClient{
 		Token:    token,
 		Ambiente: ambiente,
 		Timeout:  timeout,
 		Port:     port,
 		Debug:    debug,
 	}
+
+	if debug {
+		printClient(client)
+	}
+
+	return client
 }
 
-type configRequest struct {
-	BaseUri BaseUri
+type configService struct {
+	BaseUri baseUri
 	Token   string
 	Timeout int
 	Port    int
 	Debug   bool
 }
 
-func NewRequest(config configClient) (configRequest, error) {
+func NewService(config configClient) (configService, error) {
 	token := config.Token
 	ambiente := config.Ambiente
 	timeout := config.Timeout
 	port := config.Port
 	debug := config.Debug
 
-	if ambiente != AMBIENTE_PRODUCAO && ambiente != AMBIENTE_HOMOLOGACAO {
-		return configRequest{}, nil
+	if ambiente != AmbienteProducao && ambiente != AmbienteHomologacao {
+		return configService{}, nil
 
 	} else {
-		if ambiente == AMBIENTE_PRODUCAO {
-			baseUri := API_PRODUCAO
+		if ambiente == AmbienteProducao {
+			baseUri := api_Producao
 
-			return configRequest{
+			request := configService{
 				BaseUri: baseUri,
 				Token:   token,
 				Timeout: timeout,
 				Port:    port,
 				Debug:   debug,
-			}, nil
+			}
+
+			if debug {
+				printRequest(request)
+			}
+
+			return request, nil
 
 		} else {
-			baseUri := API_HOMOLOGACAO
+			baseUri := api_Homologacao
 
-			return configRequest{
+			request := configService{
 				BaseUri: baseUri,
 				Token:   token,
 				Timeout: timeout,
 				Port:    port,
 				Debug:   debug,
-			}, nil
+			}
+
+			if debug {
+				printRequest(request)
+			}
+
+			return request, nil
 		}
 	}
 }
 
-func PrintConfig(config configBase) {
+func printBase(config configBase) {
 	fmt.Printf("Token: %s\n", config.Token)
 	fmt.Printf("Ambiente: %d\n", config.Ambiente)
 	fmt.Printf("Timeout: %d\n", config.Timeout)
 	fmt.Printf("Port: %d\n", config.Port)
 	fmt.Printf("Debug: %v\n", config.Debug)
+	fmt.Println("")
 }
 
-func PrintConfig2(config configClient) {
+func printClient(config configClient) {
 	fmt.Printf("Token: %s\n", config.Token)
 	fmt.Printf("Ambiente: %d\n", config.Ambiente)
 	fmt.Printf("Timeout: %d\n", config.Timeout)
 	fmt.Printf("Port: %d\n", config.Port)
 	fmt.Printf("Debug: %v\n", config.Debug)
+	fmt.Println("")
 }
 
-func PrintConfig3(config configRequest) {
+func printRequest(config configService) {
 	fmt.Printf("Token: %s\n", config.Token)
 	fmt.Printf("Base URI: %s\n", config.BaseUri)
 	fmt.Printf("Timeout: %d\n", config.Timeout)
 	fmt.Printf("Port: %d\n", config.Port)
 	fmt.Printf("Debug: %v\n", config.Debug)
+	fmt.Println("")
 }

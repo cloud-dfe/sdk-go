@@ -8,17 +8,17 @@ import (
 
 func main() {
 
-	config := sdk_cloud_dfe.NewBase("Teste", sdk_cloud_dfe.AMBIENTE_HOMOLOGACAO, 60, 443, false)
+	config := sdk_cloud_dfe.NewBase("Teste", sdk_cloud_dfe.AmbienteHomologacao, 60, 443, false)
 	config2 := sdk_cloud_dfe.NewClient(config)
-	config3, err := sdk_cloud_dfe.NewRequest(config2)
+	config3, err := sdk_cloud_dfe.NewService(config2)
 
 	if err != nil {
 		println("Ocorreu um erro")
 	}
 
-	sdk_cloud_dfe.PrintConfig(config)
-	fmt.Println("")
-	sdk_cloud_dfe.PrintConfig2(config2)
-	fmt.Println("")
-	sdk_cloud_dfe.PrintConfig3(config3)
+	service := sdk_cloud_dfe.SetService(config3)
+
+	exemplo := service.Request()
+
+	fmt.Println(exemplo)
 }
