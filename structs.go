@@ -76,7 +76,7 @@ type configService struct {
 	Debug   bool
 }
 
-func NewService(config configClient) (configService, error) {
+func NewService(config configClient) (service, error) {
 	token := config.Token
 	ambiente := config.Ambiente
 	timeout := config.Timeout
@@ -84,13 +84,13 @@ func NewService(config configClient) (configService, error) {
 	debug := config.Debug
 
 	if ambiente != AmbienteProducao && ambiente != AmbienteHomologacao {
-		return configService{}, nil
+		return service{}, nil
 
 	} else {
 		if ambiente == AmbienteProducao {
 			baseUri := api_Producao
 
-			request := configService{
+			newService := configService{
 				BaseUri: baseUri,
 				Token:   token,
 				Timeout: timeout,
@@ -99,15 +99,17 @@ func NewService(config configClient) (configService, error) {
 			}
 
 			if debug {
-				printRequest(request)
+				printRequest(newService)
 			}
 
-			return request, nil
+			service := setService(newService)
+
+			return service, nil
 
 		} else {
 			baseUri := api_Homologacao
 
-			request := configService{
+			newService := configService{
 				BaseUri: baseUri,
 				Token:   token,
 				Timeout: timeout,
@@ -116,10 +118,12 @@ func NewService(config configClient) (configService, error) {
 			}
 
 			if debug {
-				printRequest(request)
+				printRequest(newService)
 			}
 
-			return request, nil
+			service := setService(newService)
+
+			return service, nil
 		}
 	}
 }
