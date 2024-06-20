@@ -20,7 +20,7 @@ type configBase struct {
 	Debug    bool
 }
 
-func NewBase(token string, ambiente ambiente, timeout int, port int, debug bool) configBase {
+func NewBase(token string, ambiente ambiente, timeout int, port int, debug bool) (base, error) {
 
 	config := configBase{
 		Token:    token,
@@ -34,7 +34,12 @@ func NewBase(token string, ambiente ambiente, timeout int, port int, debug bool)
 		printBase(config)
 	}
 
-	return config
+	client, err := newClient(config)
+
+	base := base{Client: client}
+
+	return base, err
+
 }
 
 type configClient struct {
@@ -45,7 +50,7 @@ type configClient struct {
 	Debug    bool
 }
 
-func NewClient(config configBase) configClient {
+func newClient(config configBase) (client, error) {
 
 	token := config.Token
 	ambiente := config.Ambiente
@@ -53,7 +58,7 @@ func NewClient(config configBase) configClient {
 	port := config.Port
 	debug := config.Debug
 
-	client := configClient{
+	newClient := configClient{
 		Token:    token,
 		Ambiente: ambiente,
 		Timeout:  timeout,
@@ -62,10 +67,14 @@ func NewClient(config configBase) configClient {
 	}
 
 	if debug {
-		printClient(client)
+		printClient(newClient)
 	}
 
-	return client
+	service, err := newService(newClient)
+
+	client := client{Service: service}
+
+	return client, err
 }
 
 type configService struct {
@@ -76,7 +85,7 @@ type configService struct {
 	Debug   bool
 }
 
-func NewService(config configClient) (service, error) {
+func newService(config configClient) (service, error) {
 	token := config.Token
 	ambiente := config.Ambiente
 	timeout := config.Timeout
@@ -84,7 +93,7 @@ func NewService(config configClient) (service, error) {
 	debug := config.Debug
 
 	if ambiente != AmbienteProducao && ambiente != AmbienteHomologacao {
-		return service{}, nil
+		panic("Ambiente precisa ser 1- Produção ou 2- Homologação.")
 
 	} else {
 		if ambiente == AmbienteProducao {
@@ -102,7 +111,7 @@ func NewService(config configClient) (service, error) {
 				printRequest(newService)
 			}
 
-			service := setService(newService)
+			service := service{Config: newService}
 
 			return service, nil
 
@@ -121,7 +130,7 @@ func NewService(config configClient) (service, error) {
 				printRequest(newService)
 			}
 
-			service := setService(newService)
+			service := service{Config: newService}
 
 			return service, nil
 		}

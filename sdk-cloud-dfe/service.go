@@ -3,7 +3,7 @@ package sdk_cloud_dfe
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 	"time"
 )
@@ -12,14 +12,7 @@ type service struct {
 	Config configService
 }
 
-func setService(config configService) service {
-
-	return service{
-		Config: config,
-	}
-}
-
-func (s service) Request(method, route string, payload interface{}) (interface{}, error) {
+func (s service) request(method, route string, payload interface{}) (interface{}, error) {
 
 	headers := map[string]string{
 		"Authorization": s.Config.Token,
@@ -30,9 +23,9 @@ func (s service) Request(method, route string, payload interface{}) (interface{}
 	jsonData, err := json.Marshal(payload)
 	if err != nil {
 		if s.Config.Debug {
-			fmt.Printf("Erro ao converter dados para JSON: %v", err)
+			log.Fatalf("Erro ao converter dados para JSON: %v", err)
 		}
-		return nil, err
+		panic("Erro ao converter dados para JSON.")
 	}
 
 	url := string(s.Config.BaseUri) + route
@@ -40,9 +33,9 @@ func (s service) Request(method, route string, payload interface{}) (interface{}
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(jsonData))
 	if err != nil {
 		if s.Config.Debug {
-			fmt.Printf("Erro ao criar a requisição: %v", err)
+			log.Fatalf("Erro ao criar a requisição: %v", err)
 		}
-		return nil, err
+		panic("Erro ao criar a requisição.")
 	}
 
 	for key, value := range headers {
@@ -56,9 +49,9 @@ func (s service) Request(method, route string, payload interface{}) (interface{}
 	resp, err := client.Do(req)
 	if err != nil {
 		if s.Config.Debug {
-			fmt.Printf("Erro ao enviar a requisição: %v", err)
+			log.Fatalf("Erro ao enviar a requisição: %v", err)
 		}
-		return nil, err
+		panic("Erro ao enviar a requisição.")
 	}
 	defer resp.Body.Close()
 
@@ -66,9 +59,9 @@ func (s service) Request(method, route string, payload interface{}) (interface{}
 
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		if s.Config.Debug {
-			fmt.Printf("Erro ao obter a resposta: %v", err)
+			log.Fatalf("Erro ao obter a resposta: %v", err)
 		}
-		return nil, err
+		panic("Erro ao obter a resposta.")
 	}
 
 	return result, nil
