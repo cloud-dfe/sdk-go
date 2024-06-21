@@ -1,6 +1,9 @@
 package sdk_cloud_dfe
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type ambiente int
 type baseUri string
@@ -93,7 +96,7 @@ func newService(config configClient) (service, error) {
 	debug := config.Debug
 
 	if ambiente != AmbienteProducao && ambiente != AmbienteHomologacao {
-		panic("Ambiente precisa ser 1- Produção ou 2- Homologação.")
+		return service{}, errors.New("ambiente precisa ser 1- produção ou 2- homologação")
 
 	} else {
 		if ambiente == AmbienteProducao {

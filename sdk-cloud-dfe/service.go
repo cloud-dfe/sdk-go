@@ -3,6 +3,7 @@ package sdk_cloud_dfe
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 	"time"
@@ -12,7 +13,7 @@ type service struct {
 	Config configService
 }
 
-func (s service) request(method, route string, payload interface{}) (interface{}, error) {
+func (s service) request(method, route string, payload map[string]interface{}) (interface{}, error) {
 
 	headers := map[string]string{
 		"Authorization": s.Config.Token,
@@ -25,7 +26,7 @@ func (s service) request(method, route string, payload interface{}) (interface{}
 		if s.Config.Debug {
 			log.Fatalf("Erro ao converter dados para JSON: %v", err)
 		}
-		panic("Erro ao converter dados para JSON.")
+		return nil, errors.New("erro ao converter dados para JSON")
 	}
 
 	url := string(s.Config.BaseUri) + route
@@ -35,7 +36,7 @@ func (s service) request(method, route string, payload interface{}) (interface{}
 		if s.Config.Debug {
 			log.Fatalf("Erro ao criar a requisição: %v", err)
 		}
-		panic("Erro ao criar a requisição.")
+		return nil, errors.New("erro ao criar a requisição")
 	}
 
 	for key, value := range headers {
@@ -51,7 +52,7 @@ func (s service) request(method, route string, payload interface{}) (interface{}
 		if s.Config.Debug {
 			log.Fatalf("Erro ao enviar a requisição: %v", err)
 		}
-		panic("Erro ao enviar a requisição.")
+		return nil, errors.New("erro ao enviar a requisição")
 	}
 	defer resp.Body.Close()
 
@@ -61,7 +62,7 @@ func (s service) request(method, route string, payload interface{}) (interface{}
 		if s.Config.Debug {
 			log.Fatalf("Erro ao obter a resposta: %v", err)
 		}
-		panic("Erro ao obter a resposta.")
+		return nil, errors.New("erro ao obter a resposta")
 	}
 
 	return result, nil
