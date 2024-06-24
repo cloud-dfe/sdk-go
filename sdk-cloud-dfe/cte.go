@@ -87,3 +87,15 @@ func (c cte) Importa(payload map[string]interface{}) (interface{}, error) {
 
 	return resp, err
 }
+
+func (c cte) Preview(payload map[string]interface{}) (interface{}, error) {
+	resp, err := c.Base.Client.send(http.MethodPost, "/cte/preview", payload)
+
+	return resp, err
+}
+
+func (c cte) Desacordo(payload map[string]interface{}) (interface{}, error) {
+	resp, err := c.Base.Client.send(http.MethodPost, "/cte/desacordo", payload)
+
+	return resp, err
+}
