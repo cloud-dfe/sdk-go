@@ -37,8 +37,8 @@ func Decode(data string) (string, error) {
 	return string(decompressed), nil
 }
 
-func ReadFile(file string) (string, error) {
-	content, err := os.ReadFile(file)
+func ReadFile(filePath string) (string, error) {
+	content, err := os.ReadFile(filePath)
 	if err != nil {
 		return "", err
 	}
