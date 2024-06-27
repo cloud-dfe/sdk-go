@@ -17,19 +17,19 @@ func Softhouse(b base) softhouse {
 	return result
 }
 
-func (c nfse) CriaEmitente(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) CriaEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/soft/emitente", payload)
 
 	return resp, err
 }
 
-func (c nfse) AtualizaEmitente(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) AtualizaEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/soft/emitente", payload)
 
 	return resp, err
 }
 
-func (c nfse) MostraEmitente(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) MostraEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
 	doc, ok := payload["doc"].(string)
 
 	if !ok {
@@ -41,12 +41,12 @@ func (c nfse) MostraEmitente(payload map[string]interface{}) (interface{}, error
 	return resp, err
 }
 
-func (c softhouse) ListaEmitente(payload map[string]interface{}) (interface{}, error) {
+func (c softhouse) ListaEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
 
 	status, ok := payload["status"]
 
 	if !ok {
-		return "", errors.New("deve ser passado um status para listar os emitentes")
+		return nil, errors.New("deve ser passado um status para listar os emitentes")
 	}
 
 	rota := "/soft/emitente"
@@ -61,7 +61,7 @@ func (c softhouse) ListaEmitente(payload map[string]interface{}) (interface{}, e
 
 }
 
-func (c softhouse) DeletaEmitente(payload map[string]interface{}) (interface{}, error) {
+func (c softhouse) DeletaEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
 
 	doc, ok := payload["doc"]
 

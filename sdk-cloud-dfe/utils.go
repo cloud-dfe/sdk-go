@@ -39,6 +39,7 @@ func Decode(data string) (string, error) {
 
 func ReadFile(filePath string) (string, error) {
 	content, err := os.ReadFile(filePath)
+
 	if err != nil {
 		return "", err
 	}

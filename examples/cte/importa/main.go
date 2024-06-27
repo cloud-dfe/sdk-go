@@ -19,11 +19,13 @@ func main() {
 
 	cte := sdk_cloud_dfe.Cte(config)
 
-	fileXmlBase64, err := sdk_cloud_dfe.ReadFile("caminho_do_arquivo.xml")
+	fileXml, err := sdk_cloud_dfe.ReadFile("caminho_do_arquivo.xml")
 
 	if err != nil {
 		fmt.Printf("Erro ao abrir o arquivo.")
 	}
+
+	fileXmlBase64 := sdk_cloud_dfe.Encode(fileXml)
 
 	payload := map[string]interface{}{
 		"xml": fileXmlBase64,

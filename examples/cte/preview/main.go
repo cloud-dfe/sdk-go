@@ -67,7 +67,7 @@ func main() {
 			"quantidades": []map[string]interface{}{
 				{
 					"codigo_unidade_medida": "01",
-					"tipo_medida":           "Peso Bruto",
+					"tipo_medida":           "PESO BRUTO",
 					"quantidade":            "500.00",
 				},
 			},
@@ -78,6 +78,46 @@ func main() {
 				},
 			},
 		},
+		"imposto": map[string]interface{}{
+			"icms": map[string]interface{}{
+				"situacao_tributaria":           "20",
+				"valor_base_calculo":            "0.00",
+				"aliquota":                      "12.00",
+				"valor":                         "0.00",
+				"aliquota_reducao_base_calculo": "50.00",
+			},
+		},
+		"nfes": []map[string]interface{}{
+			{
+				"chave": "24201001243220000109550010000010611650858974",
+			},
+		},
+		"modal_rodoviario": map[string]interface{}{
+			"rntrc": "02033517",
+		},
+		"destinatario": map[string]interface{}{
+			"cnpj":               "15495526000128",
+			"inscricao_estadual": "212055510",
+			"nome":               "EMPRESA MODELO",
+			"telefone":           "8499995555",
+			"endereco": map[string]interface{}{
+				"logradouro":       "AVENIDA TESTE",
+				"numero":           "444",
+				"bairro":           "CENTRO",
+				"codigo_municipio": "2408003",
+				"nome_municipio":   "Mossoró",
+				"cep":              "59603330",
+				"uf":               "RN",
+				"codigo_pais":      "1058",
+				"nome_pais":        "BRASIL",
+				"email":            "teste@teste.com.br",
+			},
+		},
+		"tomador": map[string]interface{}{
+			"tipo":                         "3",
+			"indicador_inscricao_estadual": "1",
+		},
+		"observacao": "",
 	}
 
 	resp, err := cte.Preview(payload)

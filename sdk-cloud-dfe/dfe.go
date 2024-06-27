@@ -16,13 +16,13 @@ func Dfe(b base) dfe {
 	return result
 }
 
-func (c dfe) BuscaCte(payload map[string]interface{}) (interface{}, error) {
+func (c dfe) BuscaCte(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/dfe/cte", payload)
 
 	return resp, err
 }
 
-func (c dfe) DownloadCte(payload map[string]interface{}) (interface{}, error) {
+func (c dfe) DownloadCte(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, err := checkKey(payload)
 	if err != nil {
 		return nil, err
@@ -33,13 +33,13 @@ func (c dfe) DownloadCte(payload map[string]interface{}) (interface{}, error) {
 	return resp, err
 }
 
-func (c dfe) BuscaNfe(payload map[string]interface{}) (interface{}, error) {
+func (c dfe) BuscaNfe(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/dfe/nfe", payload)
 
 	return resp, err
 }
 
-func (c dfe) DownloadNfe(payload map[string]interface{}) (interface{}, error) {
+func (c dfe) DownloadNfe(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, err := checkKey(payload)
 	if err != nil {
 		return nil, err
@@ -50,13 +50,13 @@ func (c dfe) DownloadNfe(payload map[string]interface{}) (interface{}, error) {
 	return resp, err
 }
 
-func (c dfe) BuscaNfse(payload map[string]interface{}) (interface{}, error) {
+func (c dfe) BuscaNfse(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/dfe/nfse", payload)
 
 	return resp, err
 }
 
-func (c dfe) DownloadNfse(payload map[string]interface{}) (interface{}, error) {
+func (c dfe) DownloadNfse(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, err := checkKey(payload)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c dfe) DownloadNfse(payload map[string]interface{}) (interface{}, error) {
 	return resp, err
 }
 
-func (c dfe) Eventos(payload map[string]interface{}) (interface{}, error) {
+func (c dfe) Eventos(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, err := checkKey(payload)
 	if err != nil {
 		return nil, err
@@ -78,7 +78,7 @@ func (c dfe) Eventos(payload map[string]interface{}) (interface{}, error) {
 	return resp, err
 }
 
-func (c dfe) Backup(payload map[string]interface{}) (interface{}, error) {
+func (c dfe) Backup(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/dfe/backup", payload)
 
 	return resp, err

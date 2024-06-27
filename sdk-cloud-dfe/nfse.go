@@ -17,19 +17,19 @@ func Nfse(b base) nfse {
 	return result
 }
 
-func (c nfse) Cria(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Cria(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/nfse", payload)
 
 	return resp, err
 }
 
-func (c nfse) Preview(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Preview(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/preview", payload)
 
 	return resp, err
 }
 
-func (c nfse) Pdf(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Pdf(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, err := checkKey(payload)
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func (c nfse) Pdf(payload map[string]interface{}) (interface{}, error) {
 	return resp, err
 }
 
-func (c nfse) Consulta(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Consulta(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, err := checkKey(payload)
 	if err != nil {
 		return nil, err
@@ -51,41 +51,41 @@ func (c nfse) Consulta(payload map[string]interface{}) (interface{}, error) {
 	return resp, err
 }
 
-func (c nfse) Cancela(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Cancela(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/cancela", payload)
 
 	return resp, err
 }
 
-func (c nfse) Substitui(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Substitui(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/Substitui", payload)
 
 	return resp, err
 }
 
-func (c nfse) Busca(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Busca(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/busca", payload)
 
 	return resp, err
 }
 
-func (c nfse) Backup(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Backup(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/backup", payload)
 
 	return resp, err
 }
 
-func (c nfse) Localiza(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Localiza(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/consulta", payload)
 
 	return resp, err
 }
 
-func (c nfse) Info(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Info(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, ok := payload["ibge"].(string)
 
 	if !ok {
-		return "", errors.New("não foi informado ibge")
+		return nil, errors.New("não foi informado ibge")
 	}
 
 	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/nfse/info/%s", key), nil)
@@ -97,19 +97,19 @@ func (c nfse) Info(payload map[string]interface{}) (interface{}, error) {
 	return resp, err
 }
 
-func (c nfse) Conflito(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Conflito(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/conflito", payload)
 
 	return resp, err
 }
 
-func (c nfse) Offline(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Offline(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/offline", payload)
 
 	return resp, err
 }
 
-func (c nfse) Resolve(payload map[string]interface{}) (interface{}, error) {
+func (c nfse) Resolve(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, err := checkKey(payload)
 	if err != nil {
 		return nil, err

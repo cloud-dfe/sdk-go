@@ -13,19 +13,19 @@ func Gnre(b base) gnre {
 	return result
 }
 
-func (c gnre) Token() (interface{}, error) {
+func (c gnre) Token() (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodGet, "/gnre", nil)
 
 	return resp, err
 }
 
-func (c gnre) Cria(payload map[string]interface{}) (interface{}, error) {
+func (c gnre) Cria(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/gnre", payload)
 
 	return resp, err
 }
 
-func (c gnre) ConfigUf(payload map[string]interface{}) (interface{}, error) {
+func (c gnre) ConfigUf(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/gnre/configuf", payload)
 
 	return resp, err

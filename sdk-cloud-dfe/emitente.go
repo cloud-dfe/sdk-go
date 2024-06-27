@@ -13,19 +13,19 @@ func Emitente(b base) emitente {
 	return result
 }
 
-func (c emitente) Token() (interface{}, error) {
+func (c emitente) Token() (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodGet, "/emitente/token", nil)
 
 	return resp, err
 }
 
-func (c dfe) Atualiza(payload map[string]interface{}) (interface{}, error) {
+func (c dfe) Atualiza(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPut, "/emitente", payload)
 
 	return resp, err
 }
 
-func (c emitente) Mostra() (interface{}, error) {
+func (c emitente) Mostra() (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodGet, "/emitente", nil)
 
 	return resp, err

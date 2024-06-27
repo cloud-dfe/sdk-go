@@ -19,7 +19,9 @@ func main() {
 
 	averbacao := sdk_cloud_dfe.Averbacao(config)
 
-	fileXmlBase64, err := sdk_cloud_dfe.ReadFile("sdk-go/caminho_do_arquivo.xml")
+	fileXml, err := sdk_cloud_dfe.ReadFile("caminho_do_arquivo.xml")
+
+	fileXmlBase64 := sdk_cloud_dfe.Encode(fileXml)
 
 	if err != nil {
 		fmt.Printf("Erro ao abrir o arquivo.")

@@ -13,19 +13,19 @@ func Averbacao(b base) averbacao {
 	return result
 }
 
-func (a averbacao) Atm(payload map[string]interface{}) (interface{}, error) {
+func (a averbacao) Atm(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := a.Base.Client.send(http.MethodPost, "/averbacao/atm", payload)
 
 	return resp, err
 }
 
-func (a averbacao) AtmCancela(payload map[string]interface{}) (interface{}, error) {
+func (a averbacao) AtmCancela(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := a.Base.Client.send(http.MethodPost, "/averbacao/atm/cancela", payload)
 
 	return resp, err
 }
 
-func (a averbacao) Elt(payload map[string]interface{}) (interface{}, error) {
+func (a averbacao) Elt(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := a.Base.Client.send(http.MethodPost, "/averbacao/elt", payload)
 
 	return resp, err

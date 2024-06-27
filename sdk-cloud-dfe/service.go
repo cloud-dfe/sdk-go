@@ -13,7 +13,7 @@ type service struct {
 	Config configService
 }
 
-func (s service) request(method, route string, payload map[string]interface{}) (interface{}, error) {
+func (s service) request(method, route string, payload map[string]interface{}) (map[string]interface{}, error) {
 
 	headers := map[string]string{
 		"Authorization": s.Config.Token,

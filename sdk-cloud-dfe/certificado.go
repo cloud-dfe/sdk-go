@@ -13,13 +13,13 @@ func Certificado(b base) certificado {
 	return result
 }
 
-func (c certificado) Atualiza(payload map[string]interface{}) (interface{}, error) {
+func (c certificado) Atualiza(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/certificado", payload)
 
 	return resp, err
 }
 
-func (c certificado) Mostra() (interface{}, error) {
+func (c certificado) Mostra() (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodGet, "/certificado", nil)
 
 	return resp, err
