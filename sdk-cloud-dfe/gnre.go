@@ -1,6 +1,9 @@
 package sdk_cloud_dfe
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 type gnre struct {
 	Base base
@@ -13,8 +16,13 @@ func Gnre(b base) gnre {
 	return result
 }
 
-func (c gnre) Token() (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodGet, "/gnre", nil)
+func (c gnre) Consulta(payload map[string]interface{}) (map[string]interface{}, error) {
+	key, err := checkKey(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/gnre/%s", key), nil)
 
 	return resp, err
 }

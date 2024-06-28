@@ -19,7 +19,7 @@ func (c emitente) Token() (map[string]interface{}, error) {
 	return resp, err
 }
 
-func (c dfe) Atualiza(payload map[string]interface{}) (map[string]interface{}, error) {
+func (c emitente) Atualiza(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPut, "/emitente", payload)
 
 	return resp, err

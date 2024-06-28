@@ -17,19 +17,19 @@ func Softhouse(b base) softhouse {
 	return result
 }
 
-func (c nfse) CriaEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
+func (c softhouse) CriaEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/soft/emitente", payload)
 
 	return resp, err
 }
 
-func (c nfse) AtualizaEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
+func (c softhouse) AtualizaEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
 	resp, err := c.Base.Client.send(http.MethodPost, "/soft/emitente", payload)
 
 	return resp, err
 }
 
-func (c nfse) MostraEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
+func (c softhouse) MostraEmitente(payload map[string]interface{}) (map[string]interface{}, error) {
 	doc, ok := payload["doc"].(string)
 
 	if !ok {

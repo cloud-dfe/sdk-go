@@ -35,6 +35,16 @@ func main() {
 		fmt.Printf("Erro: %v", err)
 	}
 
+	if resp["sucesso"].(bool) {
+
+		docs := resp["docs"].(map[string]map[string]interface{})
+
+		for _, doc := range docs {
+			chave := doc["chave"]
+			fmt.Println(chave)
+		}
+	}
+
 	jsonData, err := json.Marshal(resp)
 	if err != nil {
 		fmt.Printf("Erro ao converter mapa para JSON: %v", err)

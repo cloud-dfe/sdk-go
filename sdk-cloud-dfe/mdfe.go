@@ -28,13 +28,13 @@ func (c mdfe) Preview(payload map[string]interface{}) (map[string]interface{}, e
 	return resp, err
 }
 
-func (c mdfe) Status(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/mdfe/status", payload)
+func (c mdfe) Status() (map[string]interface{}, error) {
+	resp, err := c.Base.Client.send(http.MethodGet, "/mdfe/status", nil)
 
 	return resp, err
 }
 
-func (c dfe) Consulta(payload map[string]interface{}) (map[string]interface{}, error) {
+func (c mdfe) Consulta(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, err := checkKey(payload)
 	if err != nil {
 		return nil, err
@@ -69,13 +69,13 @@ func (c mdfe) Condutor(payload map[string]interface{}) (map[string]interface{}, 
 	return resp, err
 }
 
-func (c mdfe) Offline(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/mdfe/offline", payload)
+func (c mdfe) Offline() (map[string]interface{}, error) {
+	resp, err := c.Base.Client.send(http.MethodGet, "/mdfe/offline", nil)
 
 	return resp, err
 }
 
-func (c dfe) Pdf(payload map[string]interface{}) (map[string]interface{}, error) {
+func (c mdfe) Pdf(payload map[string]interface{}) (map[string]interface{}, error) {
 	key, err := checkKey(payload)
 	if err != nil {
 		return nil, err
@@ -98,8 +98,8 @@ func (c mdfe) Nfe(payload map[string]interface{}) (map[string]interface{}, error
 	return resp, err
 }
 
-func (c mdfe) Abertos(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/mdfe/abertos", payload)
+func (c mdfe) Abertos() (map[string]interface{}, error) {
+	resp, err := c.Base.Client.send(http.MethodGet, "/mdfe/abertos", nil)
 
 	return resp, err
 }
