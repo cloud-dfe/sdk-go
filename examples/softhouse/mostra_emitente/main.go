@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjE0LCJ1c3IiOjgsInRwIjoyLCJpYXQiOjE2NzIyNTAzMzV9.TY8-eAg6gUFSo55epFL-UoPTD3XAUJMl8SxUcAsCr4o"
+	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjQ2MSwidXNyIjoxNzAsInRwIjoyLCJpYXQiOjE2NTE1MDYzMjR9.a0cOwP6BUDZAboYwMzoMjutCtFM8Ph-X4pLahZIB_V4"
 
 	config, err := sdk_cloud_dfe.NewBase(token, sdk_cloud_dfe.AmbienteHomologacao, 60, 443, false)
 
@@ -20,10 +20,10 @@ func main() {
 	softhouse := sdk_cloud_dfe.Softhouse(config)
 
 	payload := map[string]interface{}{
-		"a": "a",
+		"doc": "25447784000121", // CPF ou CNPJ
 	}
 
-	resp, err := softhouse.AtualizaEmitente(payload)
+	resp, err := softhouse.MostraEmitente(payload)
 
 	if err != nil {
 		fmt.Printf("Erro: %v", err)

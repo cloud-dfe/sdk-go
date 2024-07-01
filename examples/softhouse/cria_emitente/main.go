@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjE0LCJ1c3IiOjgsInRwIjoyLCJpYXQiOjE2NzIyNTAzMzV9.TY8-eAg6gUFSo55epFL-UoPTD3XAUJMl8SxUcAsCr4o"
+	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjQ2MSwidXNyIjoxNzAsInRwIjoyLCJpYXQiOjE2NTE1MDYzMjR9.a0cOwP6BUDZAboYwMzoMjutCtFM8Ph-X4pLahZIB_V4"
 
 	config, err := sdk_cloud_dfe.NewBase(token, sdk_cloud_dfe.AmbienteHomologacao, 60, 443, false)
 
@@ -20,10 +20,50 @@ func main() {
 	softhouse := sdk_cloud_dfe.Softhouse(config)
 
 	payload := map[string]interface{}{
-		"a": "a",
+		"nome":                     "EMPRESA TESTE",
+		"razao":                    "EMPRESA TESTE",
+		"cnpj":                     "47853098000193",
+		"cpf":                      "12345678901",
+		"cnae":                     "12369875",
+		"crt":                      "1", // Regime tributário
+		"ie":                       "12369875",
+		"im":                       "12369875",
+		"suframa":                  "12369875",
+		"csc":                      "...", // token para emissão de NFCe
+		"cscid":                    "000001",
+		"tar":                      "C92920029-12", // tar BPe
+		"login_prefeitura":         nil,
+		"senha_prefeitura":         nil,
+		"client_id_prefeitura":     nil,
+		"client_secret_prefeitura": nil,
+		"telefone":                 "46998895532",
+		"email":                    "empresa@teste.com",
+		"rua":                      "TESTE",
+		"numero":                   "1",
+		"complemento":              "NENHUM",
+		"bairro":                   "TESTE",
+		"municipio":                "CIDADE TESTE", // IBGE
+		"cmun":                     "5300108",      // IBGE
+		"uf":                       "PR",           // IBGE
+		"cep":                      "85000100",
+		"logo":                     "useyn56j4mx35m5j6_JSHh734khjd...saasjda", // BASE 64
+		"plano":                    "Emitente",
+		"documentos": map[string]interface{}{
+			"nfe":      true,
+			"nfce":     true,
+			"nfse":     true,
+			"mdfe":     true,
+			"cte":      true,
+			"cteos":    true,
+			"bpe":      true,
+			"dfe_nfe":  true,
+			"dfe_cte":  true,
+			"sintegra": true,
+			"gnre":     true,
+		},
 	}
 
-	resp, err := softhouse.AtualizaEmitente(payload)
+	resp, err := softhouse.CriaEmitente(payload)
 
 	if err != nil {
 		fmt.Printf("Erro: %v", err)
