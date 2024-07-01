@@ -103,8 +103,8 @@ func (c nfse) Conflito(payload map[string]interface{}) (map[string]interface{}, 
 	return resp, err
 }
 
-func (c nfse) Offline(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/offline", payload)
+func (c nfse) Offline() (map[string]interface{}, error) {
+	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/offline", nil)
 
 	return resp, err
 }

@@ -29,7 +29,7 @@ func (c nfce) Preview(payload map[string]interface{}) (map[string]interface{}, e
 }
 
 func (c nfce) Status() (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/nfce/status", nil)
+	resp, err := c.Base.Client.send(http.MethodGet, "/nfce/status", nil)
 
 	return resp, err
 }

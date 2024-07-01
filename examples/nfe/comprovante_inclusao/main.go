@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjE0LCJ1c3IiOjgsInRwIjoyLCJpYXQiOjE2NzIyNTAzMzV9.TY8-eAg6gUFSo55epFL-UoPTD3XAUJMl8SxUcAsCr4o"
+	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjQ2MSwidXNyIjoxNzAsInRwIjoyLCJpYXQiOjE2NTE1MDYzMjR9.a0cOwP6BUDZAboYwMzoMjutCtFM8Ph-X4pLahZIB_V4"
 
 	config, err := sdk_cloud_dfe.NewBase(token, sdk_cloud_dfe.AmbienteHomologacao, 60, 443, false)
 
@@ -19,7 +19,21 @@ func main() {
 
 	nfe := sdk_cloud_dfe.Nfe(config)
 
-	resp, err := nfe.Status()
+	payload := map[string]interface{}{
+		"chave": "50000000000000000000000000000000000000000000", // Obrigatoria Chave de acesso
+		"registra": map[string]interface{}{ // dados opcionais no caso de cancelamento
+			"data":                "2021-10-12T12:22:33-03:00", // Obrigatório Data e Hora do recebimento. (dhEntrega)
+			"imagem":              "lUHJvYyB2ZXJzYW....",       // Opcional Base64 da imagem capturada do Comprovante de Entrega da nNF-e ou uma string de referencia
+			"recebedor_documento": "123456789 SSPRJ",           // Obrigatório Número do documento de identificação da pessoa que assinou o Comprovante de Entrega da NF-e. (nDoc)
+			"recebedor_nome":      "NOME TESTE",                // Obrigatório Nome da pessoa que assinou o Comprovante de Entrega da NF-e. (xNome)
+			"coordenadas": map[string]interface{}{ // dados opcionais no caso de cancelamento
+				"latitude":  -23.628360, // Latitude do ponto de entrega, com 6 decimais. (latGPS)
+				"longitude": -46.622109, // Longitude do ponto de entrega, com 6 decimais. (longGPS)
+			},
+		},
+	}
+
+	resp, err := nfe.Comprovante(payload)
 
 	if err != nil {
 		fmt.Printf("Erro: %v", err)

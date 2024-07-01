@@ -86,7 +86,7 @@ func (c nfe) Etiqueta(payload map[string]interface{}) (map[string]interface{}, e
 		return nil, err
 	}
 
-	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/nfe/etiqueta/%s", key), nil)
+	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/nfe/pdf/etiqueta/%s", key), nil)
 
 	return resp, err
 }
@@ -104,19 +104,24 @@ func (c nfe) Backup(payload map[string]interface{}) (map[string]interface{}, err
 }
 
 func (c nfe) Download(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/nfe/download", payload)
+	key, err := checkKey(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/nfe/download/%s", key), nil)
 
 	return resp, err
 }
 
 func (c nfe) Recebidas(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/nfe/recebidas", payload)
+	resp, err := c.Base.Client.send(http.MethodGet, "/nfe/recebidas", payload)
 
 	return resp, err
 }
 
 func (c nfe) Interessado(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/nfe/interresado", payload)
+	resp, err := c.Base.Client.send(http.MethodPost, "/nfe/interessado", payload)
 
 	return resp, err
 }

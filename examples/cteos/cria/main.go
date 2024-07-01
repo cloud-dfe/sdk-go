@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjE0LCJ1c3IiOjgsInRwIjoyLCJpYXQiOjE2NzIyNTAzMzV9.TY8-eAg6gUFSo55epFL-UoPTD3XAUJMl8SxUcAsCr4o"
+	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjQ2MSwidXNyIjoxNzAsInRwIjoyLCJpYXQiOjE2NTE1MDYzMjR9.a0cOwP6BUDZAboYwMzoMjutCtFM8Ph-X4pLahZIB_V4"
 
 	config, err := sdk_cloud_dfe.NewBase(token, sdk_cloud_dfe.AmbienteHomologacao, 60, 443, false)
 
@@ -119,7 +119,7 @@ func main() {
 				print(err)
 			}
 
-			if respC["codigo"].(int) == 5023 {
+			if respC["codigo"].(float64) == 5023 {
 
 				if respC["sucesso"].(bool) {
 					jsonData, err := json.Marshal(respC)
@@ -154,7 +154,7 @@ func main() {
 
 		fmt.Println(string(jsonData))
 
-	} else if resp["codigo"].(int) == 5008 || resp["codigo"].(int) >= 7000 {
+	} else if resp["codigo"].(float64) == 5008 || resp["codigo"].(float64) >= 7000 {
 		chave := resp["chave"].(string)
 
 		payload := map[string]interface{}{
@@ -169,7 +169,7 @@ func main() {
 
 		if respC["sucesso"].(bool) {
 
-			if respC["codigo"].(int) == 5023 {
+			if respC["codigo"].(float64) == 5023 {
 				jsonData, err := json.Marshal(respC)
 
 				if err != nil {

@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjE0LCJ1c3IiOjgsInRwIjoyLCJpYXQiOjE2NzIyNTAzMzV9.TY8-eAg6gUFSo55epFL-UoPTD3XAUJMl8SxUcAsCr4o"
+	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjQ2MSwidXNyIjoxNzAsInRwIjoyLCJpYXQiOjE2NTE1MDYzMjR9.a0cOwP6BUDZAboYwMzoMjutCtFM8Ph-X4pLahZIB_V4"
 
 	config, err := sdk_cloud_dfe.NewBase(token, sdk_cloud_dfe.AmbienteHomologacao, 60, 443, false)
 
@@ -21,21 +21,20 @@ func main() {
 
 	fileXml, err := sdk_cloud_dfe.ReadFile("caminho_do_arquivo.xml")
 
-	fileXmlBase64 := sdk_cloud_dfe.Encode(fileXml)
-
 	if err != nil {
 		fmt.Printf("Erro ao abrir o arquivo.")
 	}
+
+	fileXmlBase64 := sdk_cloud_dfe.Encode(fileXml)
 
 	payload := map[string]interface{}{
 		"xml":     fileXmlBase64,
 		"usuario": "login",
 		"senha":   "senha",
-		"codigo":  "codigo",
-		"chave":   "",
+		"chave":   "50000000000000000000000000000000000000000000",
 	}
 
-	resp, err := averbacao.Atm(payload)
+	resp, err := averbacao.PortoSeguro(payload)
 
 	if err != nil {
 		fmt.Printf("Erro: %v", err)

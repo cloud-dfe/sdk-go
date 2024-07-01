@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjE0LCJ1c3IiOjgsInRwIjoyLCJpYXQiOjE2NzIyNTAzMzV9.TY8-eAg6gUFSo55epFL-UoPTD3XAUJMl8SxUcAsCr4o"
+	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOjQ2MSwidXNyIjoxNzAsInRwIjoyLCJpYXQiOjE2NTE1MDYzMjR9.a0cOwP6BUDZAboYwMzoMjutCtFM8Ph-X4pLahZIB_V4"
 
 	config, err := sdk_cloud_dfe.NewBase(token, sdk_cloud_dfe.AmbienteHomologacao, 60, 443, false)
 
@@ -19,7 +19,12 @@ func main() {
 
 	nfe := sdk_cloud_dfe.Nfe(config)
 
-	resp, err := nfe.Status()
+	payload := map[string]interface{}{
+		"chave":         "41240514867632000161650010000325901687509174",
+		"justificativa": "teste de correcao",
+	}
+
+	resp, err := nfe.Correcao(payload)
 
 	if err != nil {
 		fmt.Printf("Erro: %v", err)
