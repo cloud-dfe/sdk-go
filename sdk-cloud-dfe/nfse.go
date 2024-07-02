@@ -58,7 +58,7 @@ func (c nfse) Cancela(payload map[string]interface{}) (map[string]interface{}, e
 }
 
 func (c nfse) Substitui(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/Substitui", payload)
+	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/substitui", payload)
 
 	return resp, err
 }
@@ -104,7 +104,7 @@ func (c nfse) Conflito(payload map[string]interface{}) (map[string]interface{}, 
 }
 
 func (c nfse) Offline() (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/nfse/offline", nil)
+	resp, err := c.Base.Client.send(http.MethodGet, "/nfse/offline", nil)
 
 	return resp, err
 }
