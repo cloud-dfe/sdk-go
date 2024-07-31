@@ -90,7 +90,7 @@ func main() {
 				},
 			},
 		},
-		"informacoes_adicionais_contribuinte": "PV: 3325 * Rep: DIRETO * Motorista:  * Forma Pagto: 04 DIAS * teste de observação para a nota fiscal * Valor aproximado tributos R$9,43 (4,20%) Fonte: IBPT",
+		"informacoes_adicionais": "PV: 3325 * Rep: DIRETO * Motorista:  * Forma Pagto: 04 DIAS * teste de observação para a nota fiscal * Valor aproximado tributos R$9,43 (4,20%) Fonte: IBPT",
 		"pessoas_autorizadas": []map[string]interface{}{
 			{
 				"cnpj": "96256273000170",
