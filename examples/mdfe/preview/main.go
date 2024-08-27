@@ -76,7 +76,7 @@ func main() {
 					},
 				},
 			},
-			"reboque": nil,
+			"reboques": nil,
 		},
 	}
 
