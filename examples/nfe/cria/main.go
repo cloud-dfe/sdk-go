@@ -71,10 +71,10 @@ func main() {
 					"valor":               "17.06",
 				},
 			},
-			"valor_desconto":              0,
-			"valor_frete":                 0,
-			"valor_seguro":                0,
-			"valor_outras_despesas":       0,
+			"valor_desconto":         0,
+			"valor_frete":            0,
+			"valor_seguro":           0,
+			"valor_outras_despesas":  0,
 			"informacoes_adicionais": "Valor aproximado tributos R$: 9,43 (4,20%) Fonte: IBPT",
 		},
 	}
@@ -216,7 +216,7 @@ func main() {
 
 		fmt.Println(string(jsonData))
 
-	} else if resp["codigo"].(float64) == 5008 || resp["codigo"].(float64) >= 7000 {
+	} else if resp["codigo"].(float64) == 5008 {
 		chave := resp["chave"].(string)
 
 		payload := map[string]interface{}{
@@ -229,17 +229,27 @@ func main() {
 			fmt.Println(err)
 		}
 
-		if respC["sucesso"].(bool) {
-
-			if respC["codigo"].(float64) == 5023 {
+		if respC["codigo"].(float64) == 5023 {
+			if respC["sucesso"].(bool) {
 				jsonData, err := json.Marshal(respC)
-
 				if err != nil {
 					fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
 				}
+				fmt.Println(string(jsonData))
 
+			} else {
+				jsonData, err := json.Marshal(respC)
+				if err != nil {
+					fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+				}
 				fmt.Println(string(jsonData))
 			}
+		} else {
+			jsonData, err := json.Marshal(respC)
+			if err != nil {
+				fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+			}
+			fmt.Println(string(jsonData))
 		}
 
 	}

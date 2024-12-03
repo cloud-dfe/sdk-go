@@ -167,17 +167,27 @@ func main() {
 			fmt.Println(err)
 		}
 
-		if respC["sucesso"].(bool) {
-
-			if respC["codigo"].(float64) == 5023 {
+		if respC["codigo"].(float64) == 5023 {
+			if respC["sucesso"].(bool) {
 				jsonData, err := json.Marshal(respC)
-
 				if err != nil {
 					fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
 				}
+				fmt.Println(string(jsonData))
 
+			} else {
+				jsonData, err := json.Marshal(respC)
+				if err != nil {
+					fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+				}
 				fmt.Println(string(jsonData))
 			}
+		} else {
+			jsonData, err := json.Marshal(respC)
+			if err != nil {
+				fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+			}
+			fmt.Println(string(jsonData))
 		}
 
 	}
