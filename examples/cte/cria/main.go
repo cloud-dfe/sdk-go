@@ -179,7 +179,7 @@ func main() {
 
 		fmt.Println(string(jsonData))
 
-	} else if resp["codigo"].(float64) == 5008 || resp["codigo"].(float64) >= 7000 {
+	} else if resp["codigo"].(float64) == 5008 {
 		chave := resp["chave"].(string)
 
 		payload := map[string]interface{}{
