@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	sdk_cloud_dfe "github.com/cloud-dfe/sdk-go/sdk-cloud-dfe"
 )
@@ -77,6 +78,96 @@ func main() {
 
 	if err != nil {
 		fmt.Printf("Erro: %v", err)
+	}
+
+	if resp["sucesso"].(bool) {
+		chave := resp["chave"].(string)
+		time.Sleep(5 * time.Second)
+		tentativa := 1
+
+		for tentativa <= 5 {
+
+			payload := map[string]interface{}{
+				"chave": chave,
+			}
+
+			respC, err := gnre.Consulta(payload)
+
+			if err != nil {
+				print(err)
+			}
+
+			if respC["codigo"].(int) == 5023 {
+
+				if respC["sucesso"].(bool) {
+					jsonData, err := json.Marshal(respC)
+					if err != nil {
+						fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+					}
+					fmt.Println(string(jsonData))
+					break
+
+				} else {
+					jsonData, err := json.Marshal(respC)
+					if err != nil {
+						fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+					}
+					fmt.Println(string(jsonData))
+					break
+				}
+
+			}
+
+			time.Sleep(5 * time.Second)
+			tentativa += 1
+
+		}
+
+	} else if resp["codigo"].(float64) == 5001 || resp["codigo"].(float64) == 5002 {
+		jsonData, err := json.Marshal(resp["erros"])
+
+		if err != nil {
+			fmt.Printf("Erro ao converter mapa para Json: %v \n", err)
+		}
+
+		fmt.Println(string(jsonData))
+
+	} else if resp["codigo"].(float64) == 5008 {
+		chave := resp["chave"].(string)
+
+		payload := map[string]interface{}{
+			"chave": chave,
+		}
+
+		respC, err := gnre.Consulta(payload)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		if respC["codigo"].(float64) == 5023 {
+			if respC["sucesso"].(bool) {
+				jsonData, err := json.Marshal(respC)
+				if err != nil {
+					fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+				}
+				fmt.Println(string(jsonData))
+
+			} else {
+				jsonData, err := json.Marshal(respC)
+				if err != nil {
+					fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+				}
+				fmt.Println(string(jsonData))
+			}
+		} else {
+			jsonData, err := json.Marshal(respC)
+			if err != nil {
+				fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+			}
+			fmt.Println(string(jsonData))
+		}
+
 	}
 
 	jsonData, err := json.Marshal(resp)
