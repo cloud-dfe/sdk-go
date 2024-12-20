@@ -24,7 +24,7 @@ func main() {
 	}
 
 	payload := map[string]interface{}{
-		"uf_favoverida":  "RR",
+		"uf_favorecida":  "RR",
 		"codigo_receita": nil,
 		"curier":         nil,
 	}
