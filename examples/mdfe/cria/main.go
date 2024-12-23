@@ -9,9 +9,9 @@ import (
 
 func main() {
 
-	token := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOiJ0b2tlbl9leGVtcGxvIiwidXNyIjoidGsiLCJ0cCI6InRrIn0.Tva_viCMCeG3nkRYmi_RcJ6BtSzui60kdzIsuq5X-sQ"
+	terren := "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXAiOiJ0b2tlbl9leGVtcGxvIiwidXNyIjoidGsiLCJ0cCI6InRrIn0.Tva_viCMCeG3nkRYmi_RcJ6BtSzui60kdzIsuq5X-sQ"
 
-	config, err := sdk_cloud_dfe.NewBase(token, sdk_cloud_dfe.AmbienteHomologacao, 60, 443, false)
+	config, err := sdk_cloud_dfe.NewBase(terren, sdk_cloud_dfe.AmbienteHomologacao, 60, 443, false)
 
 	if err != nil {
 		fmt.Printf("Erro: %v", err)
@@ -96,5 +96,57 @@ func main() {
 	}
 
 	fmt.Println(string(jsonData))
+
+	if sucesso, err := resp["sucesso"].(bool); err && sucesso {
+		if codigo, err := resp["codigo"].(float64); err && codigo == 2 {
+			// Offline
+			fmt.Println("Documento offline. Aguarde a notificação.")
+		} else {
+			// Autorizado
+			fmt.Printf("Documento autorizado: %+v\n", resp)
+		}
+	} else if codigo, err := resp["codigo"].(float64); err && (codigo == 5001 || codigo == 5002) {
+		// Erro nos campos
+		if erros, err := resp["erros"]; err {
+			fmt.Printf("Erro nos campos: %+v\n", erros)
+		} else {
+			fmt.Println("Erro nos campos, mas sem detalhes disponíveis.")
+		}
+	} else if codigo, err := resp["codigo"].(float64); err && (codigo == 5008 || codigo >= 7000) {
+		chave, chaveerr := resp["chave"].(string)
+		if !chaveerr {
+			fmt.Println("Chave não encontrada no response.")
+			return
+		}
+	
+		// >= 7000 indica problemas de comunicação com a SEFAZ
+		fmt.Printf("Problemas de comunicação ou chave pendente: %+v\n", resp)
+	
+		payloadConsulta := map[string]interface{}{
+			"chave": chave,
+		}
+	
+		respConsulta, err := mdfe.Consulta(payloadConsulta)
+		if err != nil {
+			fmt.Printf("Erro ao consultar documento: %v\n", err)
+			return
+		}
+	
+		if consultaCodigo, err := respConsulta["codigo"].(float64); err && consultaCodigo != 5023 {
+			if consultaSucesso, err := respConsulta["sucesso"].(bool); err && consultaSucesso {
+				// Autorizado
+				fmt.Printf("Documento autorizado após consulta: %+v\n", respConsulta)
+			} else {
+				// Rejeição
+				fmt.Printf("Documento rejeitado após consulta: %+v\n", respConsulta)
+			}
+		} else {
+			// Em processamento
+			fmt.Printf("Documento em processamento: %+v\n", respConsulta)
+		}
+	} else {
+		// Rejeição
+		fmt.Printf("Documento rejeitado: %+v\n", resp)
+	}
 
 }

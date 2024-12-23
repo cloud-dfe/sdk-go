@@ -121,4 +121,56 @@ func main() {
 
 	fmt.Println(string(jsonData))
 
+	if sucesso, ok := resp["sucesso"].(bool); ok && sucesso {
+		if codigo, ok := resp["codigo"].(float64); ok && codigo == 2 {
+			// Offline
+			fmt.Println("Documento offline. Aguarde a notificação.")
+		} else {
+			// Autorizado
+			fmt.Printf("Documento autorizado: %+v\n", resp)
+		}
+	} else if codigo, ok := resp["codigo"].(float64); ok && (codigo == 5001 || codigo == 5002) {
+		// Erro nos campos
+		if erros, ok := resp["erros"]; ok {
+			fmt.Printf("Erro nos campos: %+v\n", erros)
+		} else {
+			fmt.Println("Erro nos campos, mas sem detalhes disponíveis.")
+		}
+	} else if codigo, ok := resp["codigo"].(float64); ok && (codigo == 5008 || codigo >= 7000) {
+		chave, chaveOk := resp["chave"].(string)
+		if !chaveOk {
+			fmt.Println("Chave não encontrada no response.")
+			return
+		}
+	
+		// >= 7000 indica problemas de comunicação com a SEFAZ
+		fmt.Printf("Problemas de comunicação ou chave pendente: %+v\n", resp)
+	
+		payloadConsulta := map[string]interface{}{
+			"chave": chave,
+		}
+	
+		respConsulta, err := nfce.Consulta(payloadConsulta)
+		if err != nil {
+			fmt.Printf("Erro ao consultar documento: %v\n", err)
+			return
+		}
+	
+		if consultaCodigo, ok := respConsulta["codigo"].(float64); ok && consultaCodigo != 5023 {
+			if consultaSucesso, ok := respConsulta["sucesso"].(bool); ok && consultaSucesso {
+				// Autorizado
+				fmt.Printf("Documento autorizado após consulta: %+v\n", respConsulta)
+			} else {
+				// Rejeição
+				fmt.Printf("Documento rejeitado após consulta: %+v\n", respConsulta)
+			}
+		} else {
+			// Em processamento
+			fmt.Printf("Documento em processamento: %+v\n", respConsulta)
+		}
+	} else {
+		// Rejeição
+		fmt.Printf("Documento rejeitado: %+v\n", resp)
+	}
+
 }
