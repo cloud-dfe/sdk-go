@@ -143,3 +143,14 @@ func (c nfe) Cadastro(payload map[string]interface{}) (map[string]interface{}, e
 
 	return resp, err
 }
+
+func (c nfe) Simples(payload map[string]interface{}) (map[string]interface{}, error) {
+	key, err := checkKey(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/nfe/pdf/simples/%s", key), nil)
+
+	return resp, err
+}
