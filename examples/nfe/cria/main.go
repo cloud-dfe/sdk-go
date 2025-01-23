@@ -166,45 +166,41 @@ func main() {
 
 	if resp["sucesso"].(bool) {
 		chave := resp["chave"].(string)
-		time.Sleep(5 * time.Second)
-		tentativa := 1
+		time.Sleep(15 * time.Second)
 
-		for tentativa <= 5 {
+		payload := map[string]interface{}{
+			"chave": chave,
+		}
 
-			payload := map[string]interface{}{
-				"chave": chave,
-			}
+		respC, err := nfe.Consulta(payload)
+		if err != nil {
+			fmt.Println(err)
+		}
 
-			respC, err := nfe.Consulta(payload)
-
-			if err != nil {
-				print(err)
-			}
-
-			if respC["codigo"].(float64) != 5023 {
-
-				if respC["sucesso"].(bool) {
-					jsonData, err := json.Marshal(respC)
-					if err != nil {
-						fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
-					}
-					fmt.Println(string(jsonData))
-					break
-
-				} else {
-					jsonData, err := json.Marshal(respC)
-					if err != nil {
-						fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
-					}
-					fmt.Println(string(jsonData))
-					break
+		if respC["codigo"].(int) != 5023 {
+			if respC["sucesso"].(bool) {
+				// autorizado
+				jsonData, err := json.Marshal(respC)
+				if err != nil {
+					fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
 				}
-
+				fmt.Println(string(jsonData))
+			} else {
+				// rejeitado
+				jsonData, err := json.Marshal(respC)
+				if err != nil {
+					fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+				}
+				fmt.Println(string(jsonData))
 			}
-
-			time.Sleep(5 * time.Second)
-			tentativa += 1
-
+		} else {
+			// nota em processamento
+			// recomendado que seja utilizado o método de consulta manual ou utilizando o webhook
+			jsonData, err := json.Marshal(respC)
+			if err != nil {
+				fmt.Printf("Erro ao converter mapa para JSON: %v \n", err)
+			}
+			fmt.Println(string(jsonData))
 		}
 
 	} else if resp["codigo"].(float64) == 5001 || resp["codigo"].(float64) == 5002 {
