@@ -11,23 +11,32 @@ type baseUri string
 const (
 	AmbienteProducao    ambiente = 1
 	AmbienteHomologacao ambiente = 2
-	api_Producao        baseUri  = "https://api.integranotas.com.br/v1"
-	api_Homologacao     baseUri  = "https://hom-api.integranotas.com.br/v1"
+	api_Producao        baseUri  = "https://api.integranotas.com.br/v"
+	api_Homologacao     baseUri  = "https://hom-api.integranotas.com.br/v"
+	defaultVersion               = "1"
 )
 
 type configBase struct {
 	Token    string
 	Ambiente ambiente
+	Version  *string
 	Timeout  int
 	Port     int
 	Debug    bool
 }
 
-func NewBase(token string, ambiente ambiente, timeout int, port int, debug bool) (base, error) {
+func NewBase(token string, ambiente ambiente, timeout int, port int, debug bool, version ...string) (base, error) {
+	var inputVersion *string
+	if len(version) > 0 {
+		inputVersion = &version[0]
+	}
+
+	resolvedVersion := resolveVersion(inputVersion)
 
 	config := configBase{
 		Token:    token,
 		Ambiente: ambiente,
+		Version:  &resolvedVersion,
 		Timeout:  timeout,
 		Port:     port,
 		Debug:    debug,
@@ -48,6 +57,7 @@ func NewBase(token string, ambiente ambiente, timeout int, port int, debug bool)
 type configClient struct {
 	Token    string
 	Ambiente ambiente
+	Version  *string
 	Timeout  int
 	Port     int
 	Debug    bool
@@ -57,6 +67,7 @@ func newClient(config configBase) (client, error) {
 
 	token := config.Token
 	ambiente := config.Ambiente
+	version := resolveVersion(config.Version)
 	timeout := config.Timeout
 	port := config.Port
 	debug := config.Debug
@@ -64,6 +75,7 @@ func newClient(config configBase) (client, error) {
 	newClient := configClient{
 		Token:    token,
 		Ambiente: ambiente,
+		Version:  &version,
 		Timeout:  timeout,
 		Port:     port,
 		Debug:    debug,
@@ -83,6 +95,7 @@ func newClient(config configBase) (client, error) {
 type configService struct {
 	BaseUri baseUri
 	Token   string
+	Version *string
 	Timeout int
 	Port    int
 	Debug   bool
@@ -91,6 +104,7 @@ type configService struct {
 func newService(config configClient) (service, error) {
 	token := config.Token
 	ambiente := config.Ambiente
+	version := resolveVersion(config.Version)
 	timeout := config.Timeout
 	port := config.Port
 	debug := config.Debug
@@ -105,6 +119,7 @@ func newService(config configClient) (service, error) {
 			newService := configService{
 				BaseUri: baseUri,
 				Token:   token,
+				Version: &version,
 				Timeout: timeout,
 				Port:    port,
 				Debug:   debug,
@@ -124,6 +139,7 @@ func newService(config configClient) (service, error) {
 			newService := configService{
 				BaseUri: baseUri,
 				Token:   token,
+				Version: &version,
 				Timeout: timeout,
 				Port:    port,
 				Debug:   debug,
@@ -140,9 +156,18 @@ func newService(config configClient) (service, error) {
 	}
 }
 
+func resolveVersion(version *string) string {
+	if version == nil || *version == "" {
+		return defaultVersion
+	}
+
+	return *version
+}
+
 func printBase(config configBase) {
 	fmt.Printf("Token: %s\n", config.Token)
 	fmt.Printf("Ambiente: %d\n", config.Ambiente)
+	fmt.Printf("Version: %s\n", resolveVersion(config.Version))
 	fmt.Printf("Timeout: %d\n", config.Timeout)
 	fmt.Printf("Port: %d\n", config.Port)
 	fmt.Printf("Debug: %v\n", config.Debug)
@@ -152,6 +177,7 @@ func printBase(config configBase) {
 func printClient(config configClient) {
 	fmt.Printf("Token: %s\n", config.Token)
 	fmt.Printf("Ambiente: %d\n", config.Ambiente)
+	fmt.Printf("Version: %s\n", resolveVersion(config.Version))
 	fmt.Printf("Timeout: %d\n", config.Timeout)
 	fmt.Printf("Port: %d\n", config.Port)
 	fmt.Printf("Debug: %v\n", config.Debug)
@@ -161,6 +187,7 @@ func printClient(config configClient) {
 func printRequest(config configService) {
 	fmt.Printf("Token: %s\n", config.Token)
 	fmt.Printf("Base URI: %s\n", config.BaseUri)
+	fmt.Printf("Version: %s\n", resolveVersion(config.Version))
 	fmt.Printf("Timeout: %d\n", config.Timeout)
 	fmt.Printf("Port: %d\n", config.Port)
 	fmt.Printf("Debug: %v\n", config.Debug)

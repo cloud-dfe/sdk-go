@@ -29,7 +29,9 @@ func (s service) request(method, route string, payload map[string]interface{}) (
 		return nil, errors.New("erro ao converter dados para JSON")
 	}
 
-	url := string(s.Config.BaseUri) + route
+	version := resolveVersion(s.Config.Version)
+
+	url := string(s.Config.BaseUri) + version + route
 
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(jsonData))
 	if err != nil {
