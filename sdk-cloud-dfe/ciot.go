@@ -17,7 +17,7 @@ func Ciot(b base) ciot {
 }
 
 func (c ciot) Cria(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/ciot", payload)
+	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/ailog", payload)
 
 	return resp, err
 }
@@ -28,31 +28,31 @@ func (c ciot) Consulta(payload map[string]interface{}) (map[string]interface{}, 
 		return nil, err
 	}
 
-	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/ciot/%s", key), nil)
+	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/ciot/ailog/%s", key), nil)
 
 	return resp, err
 }
 
 func (c ciot) Busca(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/busca", payload)
+	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/ailog/busca", payload)
 
 	return resp, err
 }
 
 func (c ciot) Cancela(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/cancela", payload)
+	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/ailog/cancela", payload)
 
 	return resp, err
 }
 
 func (c ciot) Encerra(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/encerra", payload)
+	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/ailog/encerra", payload)
 
 	return resp, err
 }
 
 func (c ciot) Retifica(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/retifica", payload)
+	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/ailog/retifica", payload)
 
 	return resp, err
 }
@@ -63,13 +63,13 @@ func (c ciot) Pdf(payload map[string]interface{}) (map[string]interface{}, error
 		return nil, err
 	}
 
-	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/ciot/pdf/%s", key), nil)
+	resp, err := c.Base.Client.send(http.MethodGet, fmt.Sprintf("/ciot/ailog/pdf/%s", key), nil)
 
 	return resp, err
 }
 
 func (c ciot) Transportador(payload map[string]interface{}) (map[string]interface{}, error) {
-	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/transportador", payload)
+	resp, err := c.Base.Client.send(http.MethodPost, "/ciot/ailog/transportador", payload)
 
 	return resp, err
 }
