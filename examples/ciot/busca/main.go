@@ -20,10 +20,12 @@ func main() {
 	ciot := sdk_cloud_dfe.Ciot(config)
 
 	payload := map[string]interface{}{
-		"data_inicial": "2026-11-01",
-		"data_final":   "2026-11-30",
-		"situacao":     "ABERTO",
-		"pagina":       "1",
+		"numero_inicial": "1",
+		"numero_final":   "1999",
+		"data_inicial":   "2026-11-01",
+		"data_final":     "2026-11-30",
+		"situacao":       "ABERTO",
+		"pagina":         "1",
 	}
 
 	resp, err := ciot.Busca(payload)

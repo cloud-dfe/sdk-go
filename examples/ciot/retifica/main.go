@@ -20,9 +20,9 @@ func main() {
 	ciot := sdk_cloud_dfe.Ciot(config)
 
 	payload := map[string]interface{}{
-		"identificacao": "VIAGEM-0001",
-		"data_fim":      "2026-11-13",
-		"valor_frete":   "4800.00",
+		"chave":       "41261122333444000181927090000010011360347860",
+		"data_fim":    "2026-11-13",
+		"valor_frete": "4800.00",
 		"pagamentos": []interface{}{
 			map[string]interface{}{
 				"forma":      "1",
