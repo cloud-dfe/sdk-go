@@ -65,6 +65,8 @@ Para saber os detalhes referente ao dados de envio e os retornos consulte nossa 
 
 [Certificado Digital](https://github.com/cloud-dfe/sdk-go/tree/master/examples/certificado)
 
+[CIOT](https://github.com/cloud-dfe/sdk-go/tree/master/examples/ciot)
+
 [CT-e](https://github.com/cloud-dfe/sdk-go/tree/master/examples/cte)
 
 [CT-e OS](https://github.com/cloud-dfe/sdk-go/tree/master/examples/cteos)
